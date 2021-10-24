@@ -67,6 +67,18 @@ https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-Cou
 Populations of 2019: 
 https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-detail.html
 
+## R Packages
+
+* dplyr
+
+* data.table
+
+* tidyr
+
+* tidyverse
+
+* usmap
+
 ## Data acquisition and cleaning
 
 ### Read in the data
@@ -91,7 +103,7 @@ cov_vacc<-as_tibble(cov_vacc)
 
 fn3 <- "pop.csv"
 if (!file.exists(fn3))
-  download.file("https://data.cdc.gov/api/views/k8wy-p9cg/rows.csv?accessType=DOWNLOAD", destfile = fn3)
+  download.file("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-agesex-civ.csv", destfile = fn3)
 
 pop<-read.csv(fn3)
 pop<-as_tibble(pop)
@@ -297,13 +309,14 @@ cov_age_vacc <- merge(
 rm(cov_age)
 rm(cov_vacc)
 rm(pop)
+rm(state_name)
 cov_age_vacc <- cov_age_vacc[, c(4,5,1,3,2,6:9)]
 colnames(cov_age_vacc)[4:9] <- c("state","Age.group","Deaths","Deaths.prop","Vacc","Vacc.prop")
 ```
 
 Therefore, we get the final data.
 
-## Methods
+## Statistical methods
 
 Descriptive analysis is done by summarizing statistics of the variables that this study concern about. Plots are shown by bar charts and maps, in order to have a straight forward view of the concerned variables. The main question of this study is explored using correlation analysis and smooth graph, based on proportion data.
 
@@ -516,6 +529,6 @@ ggplot(data = cov_age_vacc) +
 
 * The plot shows that there is no definite or fixed trend in the relationship between the two variables. There seems to have a increasing trend when the fully vaccined proportion is small, but a turning point appears when the proportion increases. Still, the confidence intervals are quite wide as shown in the plot, so the trends are not reliable. 
 
-# Conclusions
+# Conclusion
 
 There is no association between COVID-19 Deaths and fully vaccined status in different age groups. It is also found that people over the age of 65 have the highest deaths, which means that younger people are more likely to survive from COVID-19. Meanwhile, people older than 65 years old have the largest proportion of having been fully vaccined among the whole population. 

@@ -256,8 +256,8 @@ div.tocify {
 <h3>Raw dataset</h3>
 <p>Three raw datasets are included in this analysis, which are COVID-19 deaths data by state and age group, COVID-19 fully vaccined data by state and age group and state population data:</p>
 <ul>
-<li><p>COVID-19 Deaths Data involves corona virus disease 2019 (COVID-19) and pneumonia reported to NCHS by jurisdiction of occurrence, place of death, and age group, collected from 01/01/2020 to 10/23/2021.</p></li>
-<li><p>COVID-19 Vaccinations Data includes the overall US COVID-19 Vaccine administration and vaccine equity data at county level, collected from 01/01/2020 to 10/23/2021.</p></li>
+<li><p>COVID-19 Deaths Data involves corona virus disease 2019 (COVID-19) and pneumonia reported to NCHS by jurisdiction of occurrence, place of death, and age group, collected from 01/01/2020 to 10/20/2021.</p></li>
+<li><p>COVID-19 Vaccinations Data includes the overall US COVID-19 Vaccine administration and vaccine equity data at county level, collected from 01/01/2020 to 10/20/2021.</p></li>
 <li><p>Population of 2019 Data involves the estimates of the Total Resident Population and Resident Population Age 18 Years and Older for the United States.</p></li>
 </ul>
 </div>
@@ -284,16 +284,16 @@ div.tocify {
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<div id="data-source" class="section level3">
-<h3>Data source</h3>
+<div id="data-source" class="section level2">
+<h2>Data source</h2>
 <p>Provisional COVID-19 Deaths by Place of Death and Age: <a href="https://data.cdc.gov/NCHS/Provisional-COVID-19-Deaths-by-Place-of-Death-and-/4va6-ph5s" class="uri">https://data.cdc.gov/NCHS/Provisional-COVID-19-Deaths-by-Place-of-Death-and-/4va6-ph5s</a></p>
 <p>COVID-19 Vaccinations in the United States, County: <a href="https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-County/8xkx-amqh" class="uri">https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-County/8xkx-amqh</a></p>
 <p>Populations of 2019: <a href="https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-detail.html" class="uri">https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-detail.html</a></p>
 </div>
-<div id="data-acquisition-and-cleaning" class="section level3">
-<h3>Data acquisition and cleaning</h3>
-<div id="read-in-the-data" class="section level4">
-<h4>Read in the data</h4>
+<div id="data-acquisition-and-cleaning" class="section level2">
+<h2>Data acquisition and cleaning</h2>
+<div id="read-in-the-data" class="section level3">
+<h3>Read in the data</h3>
 <pre class="r"><code>fn1 &lt;- &quot;cov_age.csv&quot;
 if (!file.exists(fn1))
   download.file(&quot;https://data.cdc.gov/api/views/4va6-ph5s/rows.csv?accessType=DOWNLOAD&quot;, destfile = fn1)
@@ -315,8 +315,8 @@ if (!file.exists(fn3))
 pop&lt;-read.csv(fn3)
 pop&lt;-as_tibble(pop)</code></pre>
 </div>
-<div id="raw-data-cleaning" class="section level4">
-<h4>Raw data cleaning</h4>
+<div id="raw-data-cleaning" class="section level3">
+<h3>Raw data cleaning</h3>
 <ul>
 <li><p>In COVID-19 deaths data, the variables we are interested in counts of COVID-19 deaths by state and age group. Therefore, we</p>
 <ul>
@@ -439,11 +439,11 @@ pop &lt;- pop %&gt;%
 pop &lt;- pop[,-2]
 pop &lt;- pop %&gt;% distinct(Population, .keep_all= TRUE)</code></pre>
 </div>
-<div id="data-merging-and-cleaning" class="section level4">
-<h4>Data merging and cleaning</h4>
+<div id="data-merging-and-cleaning" class="section level3">
+<h3>Data merging and cleaning</h3>
 <p>First, check the dimensions of the datasets.</p>
 <pre class="r"><code>dim_age &lt;- dim(cov_age)
-knitr::kable(dim_age)</code></pre>
+knitr::kable(dim_age, label = &quot;dimension&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -460,7 +460,7 @@ knitr::kable(dim_age)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>dim_vacc &lt;- dim(cov_vacc)
-knitr::kable(dim_vacc)</code></pre>
+knitr::kable(dim_vacc, label = &quot;dimension&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -477,7 +477,7 @@ knitr::kable(dim_vacc)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>dim_pop &lt;- dim(pop)
-knitr::kable(dim(pop))</code></pre>
+knitr::kable(dim_pop, label = &quot;dimension&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -493,7 +493,9 @@ knitr::kable(dim(pop))</code></pre>
 </tr>
 </tbody>
 </table>
-<p>The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.</p>
+<ul>
+<li>The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.</li>
+</ul>
 <p>After checking the heads and tails and making sure that the datasets have good dimensions, we merge the datasets and do some cleaning to get the final data for analysis.</p>
 <pre class="r"><code># order before merging
 cov_age &lt;- cov_age[order(cov_age[, &quot;State&quot;], cov_age[, &quot;age_group&quot;] ),]
@@ -527,15 +529,15 @@ colnames(cov_age_vacc)[4:9] &lt;- c(&quot;state&quot;,&quot;Age.group&quot;,&quo
 <p>Therefore, we get the final data.</p>
 </div>
 </div>
-<div id="methods-1" class="section level3">
-<h3>Methods</h3>
+<div id="methods-1" class="section level2">
+<h2>Methods</h2>
 <p>Descriptive analysis is done by summarizing statistics of the variables that this study concern about. Plots are shown by bar charts and maps, in order to have a straight forward view of the concerned variables. The main question of this study is explored using correlation analysis and smooth graph, based on proportion data.</p>
 </div>
 </div>
 <div id="preliminary-results" class="section level1">
 <h1>Preliminary Results</h1>
-<div id="results-of-descriptive-analysis" class="section level3">
-<h3>Results of descriptive analysis</h3>
+<div id="results-of-descriptive-analysis" class="section level2">
+<h2>Results of descriptive analysis</h2>
 <p>Summarizes of statistics are shown in tables.</p>
 <pre class="r"><code>cov_age_vacc &lt;- as.data.table(cov_age_vacc)
 table_state &lt;- cov_age_vacc[cov_age_vacc$Age.group==&quot;All&quot;, .(
@@ -980,8 +982,8 @@ knitr::kable(table_age)</code></pre>
 <li>The age group description table shows that people older than 65 years old have both the highest number of average deaths in all states and the highest proportion of deaths in total deaths, which are 31,530 and 0.115. More number of people age between 18 and 65 have fully vaccined compared to the other two groups, which is 2,554,933. But larger proportion of older people have fully vaccined compared to younger people.</li>
 </ul>
 </div>
-<div id="plots" class="section level3">
-<h3>Plots</h3>
+<div id="plots" class="section level2">
+<h2>Plots</h2>
 <p>Show bar charts and map to have a better view of the condition of COVID-19 Deaths in different states among age groups.</p>
 <pre class="r"><code>ggplot(cov_age_vacc,aes(x=State, y=Deaths, fill=Age.group)) + 
   geom_bar(stat = &#39;identity&#39;) + 
@@ -1023,8 +1025,8 @@ knitr::kable(table_age)</code></pre>
 <li>States that are darker in the maps have larger number or proportion of people who were fully vaccined.</li>
 </ul>
 </div>
-<div id="main-question-1" class="section level3">
-<h3>Main question</h3>
+<div id="main-question-1" class="section level2">
+<h2>Main question</h2>
 <p>The association between COVID-19 Deaths and fully vaccined status is explored by correlation analysis of the proportion of COVID-19 deaths in all deaths and the proportion of fully vaccined people in the population.</p>
 <pre class="r"><code>cor &lt;- cor(cov_age_vacc[cov_age_vacc$Age.group==&quot;All&quot;,]$Deaths.prop, cov_age_vacc[cov_age_vacc$Age.group==&quot;All&quot;,]$Vacc.prop)
 knitr::kable(cor, col.names = &quot;correlation&quot;)</code></pre>
@@ -1053,8 +1055,8 @@ knitr::kable(cor, col.names = &quot;correlation&quot;)</code></pre>
 </ul>
 </div>
 </div>
-<div id="conclusion" class="section level1">
-<h1>Conclusion</h1>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
 <p>There is no association between COVID-19 Deaths and fully vaccined status in different age groups. It is also found that people over the age of 65 have the highest deaths, which means that younger people are more likely to survive from COVID-19. Meanwhile, people older than 65 years old have the largest proportion of having been fully vaccined among the whole population.</p>
 </div>
 

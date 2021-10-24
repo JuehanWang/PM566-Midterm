@@ -22,9 +22,9 @@ always_allow_html: true
 
 Three raw datasets are included in this analysis, which are COVID-19 deaths data by state and age group, COVID-19 fully vaccined data by state and age group and state population data:
 
-* COVID-19 Deaths Data involves corona virus disease 2019 (COVID-19) and pneumonia reported to NCHS by jurisdiction of occurrence, place of death, and age group, collected from 01/01/2020 to 10/23/2021.
+* COVID-19 Deaths Data involves corona virus disease 2019 (COVID-19) and pneumonia reported to NCHS by jurisdiction of occurrence, place of death, and age group, collected from 01/01/2020 to 10/20/2021.
 
-* COVID-19 Vaccinations Data includes the overall US COVID-19 Vaccine administration and vaccine equity data at county level, collected from 01/01/2020 to 10/23/2021.
+* COVID-19 Vaccinations Data includes the overall US COVID-19 Vaccine administration and vaccine equity data at county level, collected from 01/01/2020 to 10/20/2021.
 
 * Population of 2019 Data involves the estimates of the Total Resident Population and Resident Population Age 18 Years and Older for the United States.
 
@@ -56,7 +56,7 @@ What's the association between COVID-19 Deaths and fully vaccined status?
 
 # Methods
 
-### Data source
+## Data source
 
 Provisional COVID-19 Deaths by Place of Death and Age: 
 https://data.cdc.gov/NCHS/Provisional-COVID-19-Deaths-by-Place-of-Death-and-/4va6-ph5s
@@ -67,9 +67,9 @@ https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-Cou
 Populations of 2019: 
 https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-detail.html
 
-### Data acquisition and cleaning
+## Data acquisition and cleaning
 
-#### Read in the data
+### Read in the data
 
 
 
@@ -97,7 +97,7 @@ pop<-read.csv(fn3)
 pop<-as_tibble(pop)
 ```
 
-#### Raw data cleaning
+### Raw data cleaning
 
 * In COVID-19 deaths data, the variables we are interested in counts of COVID-19 deaths by state and age group. Therefore, we
 
@@ -235,14 +235,14 @@ pop <- pop[,-2]
 pop <- pop %>% distinct(Population, .keep_all= TRUE)
 ```
 
-#### Data merging and cleaning
+### Data merging and cleaning
 
 First, check the dimensions of the datasets.
 
 
 ```r
 dim_age <- dim(cov_age)
-knitr::kable(dim_age)
+knitr::kable(dim_age, label = "dimension")
 ```
 
 
@@ -254,7 +254,7 @@ knitr::kable(dim_age)
 
 ```r
 dim_vacc <- dim(cov_vacc)
-knitr::kable(dim_vacc)
+knitr::kable(dim_vacc, label = "dimension")
 ```
 
 
@@ -266,7 +266,7 @@ knitr::kable(dim_vacc)
 
 ```r
 dim_pop <- dim(pop)
-knitr::kable(dim(pop))
+knitr::kable(dim_pop, label = "dimension")
 ```
 
 
@@ -276,7 +276,7 @@ knitr::kable(dim(pop))
 | 204|
 |   3|
 
-The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.
+* The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.
 
 After checking the heads and tails and making sure that the datasets have good dimensions, we merge the datasets and do some cleaning to get the final data for analysis.
 
@@ -315,13 +315,13 @@ colnames(cov_age_vacc)[4:9] <- c("state","Age.group","Deaths","Deaths.prop","Vac
 
 Therefore, we get the final data.
 
-### Methods
+## Methods
 
 Descriptive analysis is done by summarizing statistics of the variables that this study concern about. Plots are shown by bar charts and maps, in order to have a straight forward view of the concerned variables. The main question of this study is explored using correlation analysis and smooth graph, based on proportion data.
 
 # Preliminary Results
 
-### Results of descriptive analysis
+## Results of descriptive analysis
 
 Summarizes of statistics are shown in tables.
 
@@ -421,7 +421,7 @@ Table 2  Number and proportion of deaths and fully vaccined people
 
 * The age group description table shows that people older than 65 years old have both the highest number of average deaths in all states and the highest proportion of deaths in total deaths, which are 31,530 and 0.115. More number of people age between 18 and 65 have fully vaccined compared to the other two groups, which is 2,554,933. But larger proportion of older people have fully vaccined compared to younger people.
 
-### Plots
+## Plots
 
 Show bar charts and map to have a better view of the condition of COVID-19 Deaths in different states among age groups.
 
@@ -497,7 +497,7 @@ plot_usmap(regions = 'states', data = cov_age_vacc[cov_age_vacc$Age.group=="All"
 
 * States that are darker in the maps have larger number or proportion of people who were fully vaccined.
 
-### Main question
+## Main question
 
 The association between COVID-19 Deaths and fully vaccined status is explored by correlation analysis of the proportion of COVID-19 deaths in all deaths and the proportion of fully vaccined people in the population.
 
@@ -528,6 +528,6 @@ ggplot(data = cov_age_vacc) +
 
 * The plot shows that there is no definite or fixed trend in the relationship between the two variables. There seems to have a increasing trend when the fully vaccined proportion is small, but a turning point appears when the proportion increases. Still, the confidence intervals are quite wide as shown in the plot, so the trends are not reliable. 
 
-# Conclusion
+# Conclusions
 
 There is no association between COVID-19 Deaths and fully vaccined status in different age groups. It is also found that people over the age of 65 have the highest deaths, which means that younger people are more likely to survive from COVID-19. Meanwhile, people older than 65 years old have the largest proportion of having been fully vaccined among the whole population. 

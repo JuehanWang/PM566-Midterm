@@ -241,40 +241,21 @@ First, check the dimensions of the datasets.
 
 
 ```r
-dim_age <- dim(cov_age)
-knitr::kable(dim_age, label = "dimension")
+dim(cov_age)
 ```
 
-
-
-|   x|
-|---:|
-| 200|
-|   7|
+```
+## [1] 200   7
+```
 
 ```r
 dim_vacc <- dim(cov_vacc)
-knitr::kable(dim_vacc, label = "dimension")
+dim(pop)
 ```
 
-
-
-|   x|
-|---:|
-| 200|
-|   4|
-
-```r
-dim_pop <- dim(pop)
-knitr::kable(dim_pop, label = "dimension")
 ```
-
-
-
-|   x|
-|---:|
-| 204|
-|   3|
+## [1] 204   3
+```
 
 * The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.
 
@@ -335,10 +316,12 @@ table_state <- cov_age_vacc[cov_age_vacc$Age.group=="All", .(
   "COVID-19 Fully Vaccined proportion" = round(Vacc.prop,3)
 ),
 by = State]
-knitr::kable(table_state)
+knitr::kable(table_state, caption = "Table 1  Number and proportion of deaths and fully vaccined people")
 ```
 
 
+
+Table: Table 1  Number and proportion of deaths and fully vaccined people
 
 |State          | COVID-19 Deaths| COVID-19 Deaths proportion| COVID-19 Fully Vaccined| COVID-19 Fully Vaccined proportion|
 |:--------------|---------------:|--------------------------:|-----------------------:|----------------------------------:|
@@ -393,8 +376,6 @@ knitr::kable(table_state)
 |Wisconsin      |           28448|                      0.089|                 3373184|                              0.290|
 |Wyoming        |            2924|                      0.100|                  251662|                              0.219|
 
-Table 1  Number and proportion of deaths and fully vaccined people
-
 * We can see that the three states that have the highest deaths are California, Texas and Florida, which have 221,775, 218,261 and 169,626, respectively. Also, the three states that have the highest proportion of deaths in total deaths are New Jersey, Mississippi and Connecticut, which are 16.4%, 14.7% and 14%, respectively. As for the condition of fully vaccined, the three states that have the highest number are California, Texas and New York, which are 23,996,305, 15,347,006 and 12,850,740, respectively. Additionally, the three states that have the highest proportion of fully vaccined in the population are Vermont, Maine and Connecticut, which are 35.4%, 35.2% and 35.1%, respectively.
 
 
@@ -405,10 +386,12 @@ table_age <- cov_age_vacc[, .(
   "Average of fully vaccined" = round(mean(Vacc),0),
   "Average of proportation of fully vaccined" = round(mean(Vacc.prop),3)
 ), by = Age.group]
-knitr::kable(table_age)
+knitr::kable(table_age, caption = "Table 2  Number and proportion of deaths and fully vaccined people")
 ```
 
 
+
+Table: Table 2  Number and proportion of deaths and fully vaccined people
 
 |Age.group | Average of deaths| Average of proportation of deaths| Average of fully vaccined| Average of proportation of fully vaccined|
 |:---------|-----------------:|---------------------------------:|-------------------------:|-----------------------------------------:|
@@ -416,8 +399,6 @@ knitr::kable(table_age)
 |age_18_65 |              9795|                             0.089|                   2554933|                                     0.300|
 |age_65_   |             31530|                             0.115|                    904920|                                     0.448|
 |All       |             41516|                             0.109|                   3702513|                                     0.274|
-
-Table 2  Number and proportion of deaths and fully vaccined people
 
 * The age group description table shows that people older than 65 years old have both the highest number of average deaths in all states and the highest proportion of deaths in total deaths, which are 31,530 and 0.115. More number of people age between 18 and 65 have fully vaccined compared to the other two groups, which is 2,554,933. But larger proportion of older people have fully vaccined compared to younger people.
 

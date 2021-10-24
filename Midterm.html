@@ -442,57 +442,11 @@ pop &lt;- pop %&gt;% distinct(Population, .keep_all= TRUE)</code></pre>
 <div id="data-merging-and-cleaning" class="section level3">
 <h3>Data merging and cleaning</h3>
 <p>First, check the dimensions of the datasets.</p>
-<pre class="r"><code>dim_age &lt;- dim(cov_age)
-knitr::kable(dim_age, label = &quot;dimension&quot;)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">200</td>
-</tr>
-<tr class="even">
-<td align="right">7</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>dim(cov_age)</code></pre>
+<pre><code>## [1] 200   7</code></pre>
 <pre class="r"><code>dim_vacc &lt;- dim(cov_vacc)
-knitr::kable(dim_vacc, label = &quot;dimension&quot;)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">200</td>
-</tr>
-<tr class="even">
-<td align="right">4</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>dim_pop &lt;- dim(pop)
-knitr::kable(dim_pop, label = &quot;dimension&quot;)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">204</td>
-</tr>
-<tr class="even">
-<td align="right">3</td>
-</tr>
-</tbody>
-</table>
+dim(pop)</code></pre>
+<pre><code>## [1] 204   3</code></pre>
 <ul>
 <li>The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.</li>
 </ul>
@@ -547,8 +501,9 @@ table_state &lt;- cov_age_vacc[cov_age_vacc$Age.group==&quot;All&quot;, .(
   &quot;COVID-19 Fully Vaccined proportion&quot; = round(Vacc.prop,3)
 ),
 by = State]
-knitr::kable(table_state)</code></pre>
+knitr::kable(table_state, caption = &quot;Table 1  Number and proportion of deaths and fully vaccined people&quot;)</code></pre>
 <table>
+<caption>Table 1 Number and proportion of deaths and fully vaccined people</caption>
 <colgroup>
 <col width="12%" />
 <col width="13%" />
@@ -918,7 +873,6 @@ knitr::kable(table_state)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Table 1 Number and proportion of deaths and fully vaccined people</p>
 <ul>
 <li>We can see that the three states that have the highest deaths are California, Texas and Florida, which have 221,775, 218,261 and 169,626, respectively. Also, the three states that have the highest proportion of deaths in total deaths are New Jersey, Mississippi and Connecticut, which are 16.4%, 14.7% and 14%, respectively. As for the condition of fully vaccined, the three states that have the highest number are California, Texas and New York, which are 23,996,305, 15,347,006 and 12,850,740, respectively. Additionally, the three states that have the highest proportion of fully vaccined in the population are Vermont, Maine and Connecticut, which are 35.4%, 35.2% and 35.1%, respectively.</li>
 </ul>
@@ -928,8 +882,9 @@ knitr::kable(table_state)</code></pre>
   &quot;Average of fully vaccined&quot; = round(mean(Vacc),0),
   &quot;Average of proportation of fully vaccined&quot; = round(mean(Vacc.prop),3)
 ), by = Age.group]
-knitr::kable(table_age)</code></pre>
+knitr::kable(table_age, caption = &quot;Table 2  Number and proportion of deaths and fully vaccined people&quot;)</code></pre>
 <table>
+<caption>Table 2 Number and proportion of deaths and fully vaccined people</caption>
 <colgroup>
 <col width="7%" />
 <col width="13%" />
@@ -977,7 +932,6 @@ knitr::kable(table_age)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Table 2 Number and proportion of deaths and fully vaccined people</p>
 <ul>
 <li>The age group description table shows that people older than 65 years old have both the highest number of average deaths in all states and the highest proportion of deaths in total deaths, which are 31,530 and 0.115. More number of people age between 18 and 65 have fully vaccined compared to the other two groups, which is 2,554,933. But larger proportion of older people have fully vaccined compared to younger people.</li>
 </ul>

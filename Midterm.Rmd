@@ -247,7 +247,7 @@ First, check the dimensions of the datasets.
 
 ```{r data-info}
 dim(cov_age)
-dim_vacc <- dim(cov_vacc)
+dim(cov_vacc)
 dim(pop)
 ```
 

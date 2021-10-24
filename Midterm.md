@@ -249,7 +249,14 @@ dim(cov_age)
 ```
 
 ```r
-dim_vacc <- dim(cov_vacc)
+dim(cov_vacc)
+```
+
+```
+## [1] 200   4
+```
+
+```r
 dim(pop)
 ```
 

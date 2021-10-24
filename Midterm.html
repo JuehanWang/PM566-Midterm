@@ -444,8 +444,9 @@ pop &lt;- pop %&gt;% distinct(Population, .keep_all= TRUE)</code></pre>
 <p>First, check the dimensions of the datasets.</p>
 <pre class="r"><code>dim(cov_age)</code></pre>
 <pre><code>## [1] 200   7</code></pre>
-<pre class="r"><code>dim_vacc &lt;- dim(cov_vacc)
-dim(pop)</code></pre>
+<pre class="r"><code>dim(cov_vacc)</code></pre>
+<pre><code>## [1] 200   4</code></pre>
+<pre class="r"><code>dim(pop)</code></pre>
 <pre><code>## [1] 204   3</code></pre>
 <ul>
 <li>The COVID-19 deaths data and the fully vaccined data have same number of columns. The population data have one more state data than the other two datasets. So, it should be mentioned here that the extra data will be deleted during data merging step.</li>
